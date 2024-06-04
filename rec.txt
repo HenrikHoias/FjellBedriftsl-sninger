@@ -1,0 +1,9 @@
+Forspørsel på reset passord til navn@navnesen.no (5 minutter)
+Hash: ServerPWD + navn@navnesen.no
+Lagre: 18:05_04-06-2024 under "Recovery"
+Send mail til navn@navnesen.no med følgende: fjell.no/Hash
+Sjekk hvilken recovery tid som ikke er utløpt, få tak i de mailene og sjekk om mail + ServerPWD = Hash
+Hvis match:
+	Gi mulighet til å skrive nytt passord for brukeren
+Ellers:
+	Passord recovery er utløpt
