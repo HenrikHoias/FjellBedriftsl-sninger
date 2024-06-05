@@ -126,3 +126,5 @@ Det kan være lurt å lagre det nye passordet på et lurt sted gjerne med en pas
   ```javascript
   sudo mysql -u root -p fjell_bedriftsloosninger < /var/backup/YYYY-MM-DD_HH:MM.sql
   ```
+# Kontakt tidligere utvikler
+Hvis du har noen problemer, utfordringer eller spørsmål om installasjonen eller konfigurasjonen av Fjell Bedriftsløsninger Ticket System, er du velkommen til å kontakte den tidligere utvikleren for assistanse. Send gjerne en e-post til [henrik.hoias@gmail.com](mailto:henrik.hoias@gmail.com) med detaljene om problemet eller spørsmålet ditt, og vi vil gjøre vårt beste for å hjelpe deg.
