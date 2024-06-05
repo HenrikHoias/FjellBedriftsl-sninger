@@ -1,6 +1,5 @@
 # Dokumentasjon for Fjell Bedriftsløsninger Ticket System
-Dette er dokumentasjon for deg som ønsker å sette opp dette ticketsystemet på din egen server eller maskin. Den foreslåtte løsningen tar sikte på å utvikle et ticketssystem for å dekke behovene i et sammensatt arbeids- og kundemiljø.
-
+Sist oppdatert: 05.06.2024
 ## Installasjon av Servermiljø
 
 ### 1. Forutsetninger
@@ -47,9 +46,44 @@ Dette er dokumentasjon for deg som ønsker å sette opp dette ticketsystemet på
   ```
 - Oppdater filen med det nye passordet `sudo nano /var/db_connection.php`:
   ```bash
+  <?php
+  $servername = "localhost";
+  $username = "root";
   $password = "SKRIV_INN_PASSORD_HER";
+  $database = "fjell_bedriftsloosninger";
+
+  // Create connection
+  $conn = new mysqli($servername, $username, $password, $database);
+
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
   ```
 Det kan være lurt å lagre det nye passordet på et lurt sted gjerne med en password manager eller lignende. Det er mange måter å [generere](https://1password.com/password-generator/) et sikkert passord på.
+
+## Opprettelse av Database
+
+### 1. Opprettelse av Database
+- Naviger til `/var/www/html`: `cd /var/www/html`
+- Kjør følgende kommando for å logge inn i MariaDB:
+  ```bash
+  sudo mysql -u root -p
+  ```
+- Skriv inn ditt passord når du blir bedt om det.
+- Opprett databasen `fjell_bedriftsloosninger` ved å kjøre følgende i konsollen:
+    ```sql
+  CREATE DATABASE fjell_bedriftsloosninger;
+  ```
+### 2. Importer Databasestruktur
+- Bruk databasen `fjell_bedriftsloosninger` ved å kjøre følgende i konsollen:
+  ```sql
+  USE DATABASE fjell_bedriftsloosninger;
+  ```
+- Hent data fra `fjell_bedriftsloosninger.sql` i `/var/www/html`-mappen og eksporter dataen inn i den nye databasen:
+  ```sql
+  source /var/www/html/fjell_bedriftsloosninger.sql
+  ```
 
 ## Oppsett for Backuprutine
 ### 1. Opprett backupkatalog
@@ -57,7 +91,38 @@ Det kan være lurt å lagre det nye passordet på et lurt sted gjerne med en pas
 - Lag en ny backupkatalog: `sudo mkdir backup`
 - Endre tilgangsrettighetene: `sudo chmod -R 777 /var/backup`
 
+
 ### 2. Opprett backupskript
-- Gå til `/var/`-mappen: `cd /var/`
-- Lag en ny backupkatalog: `sudo mkdir backup`
-- Endre tilgangsrettighetene: `sudo chmod -R 777 /var/backup`
+- Opprett et nytt skript for å automatisk ta sikkerhetskop av databasen:
+  ```bash
+  sudo nano /etc/cron.daily/mysql_backup.sh
+  ```
+- Legg til følgende innhold:
+  ```bash
+  #!/bin/bash
+  
+  # Definer banen til sikkerhetskopi-mappen
+  backup_dir="/var/backup"
+
+  # Sjekk om backup-mappen  eksisterer, hvis ikke, opprett den
+  if [ ! -d "$backup_dir" ]; then
+      mkdir -p "$backup_dir"
+  fi
+
+  # Kjør mysqldump-kommandoen for å ta en sikkerhetskopi
+  sudo mysqldump -u root -p fjell_bedriftsloosninger > "$backup_dir/$(date +\%Y-\%m-\%d_%H:%M).sql"
+  ```
+
+### 3. Sett opp cron-jobb for backup
+- Gi skriptet kjøretillatelse: `sudo chmod +x /etc/cron.daily/mysql_backup.sh`
+- Rediger cron-tjenesten: `sudo crontab -e`
+- Legg til følgende linje nederst for å utføre en backup hver time:
+  ```javascript
+  0 * * * * /etc/cron.daily/mysql_backup.sh
+  ```
+
+## Gjennopprette fra backup
+- For å gjenopprette fra en backupfil:
+  ```javascript
+  sudo mysql -u root -p fjell_bedriftsloosninger < /var/backup/YYYY-MM-DD_HH:MM.sql
+  ```
