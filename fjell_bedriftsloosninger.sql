@@ -55,7 +55,7 @@ INSERT INTO `bruker` (`id`, `fornavn`, `e_post`, `pwd`, `tilgang`) VALUES
 CREATE TABLE `henvendelser` (
   `id` int(11) NOT NULL,
   `bruker_id` int(11) NOT NULL,
-  `statuser_id` int(11) NOT NULL,
+  `statuser_id` int(11) NOT NULL DEFAULT 0,
   `kategori_id` int(11) NOT NULL,
   `tidspunkt_opprettet` timestamp NOT NULL DEFAULT current_timestamp(),
   `beskrivelse` longtext NOT NULL,
