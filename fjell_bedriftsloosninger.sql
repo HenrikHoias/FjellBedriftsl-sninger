@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 12. Jun, 2024 09:43 AM
+-- Generation Time: 12. Jun, 2024 10:14 AM
 -- Tjener-versjon: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -44,7 +44,8 @@ INSERT INTO `bruker` (`id`, `fornavn`, `e_post`, `pwd`, `tilgang`) VALUES
 (2, 'Sigurd', 'sigurd@agersborg.no', '9b82429a5e7e758939bfe689e83b75cf3793a01d4917bbe5859efa1ad184bbd9', ''),
 (3, 'Adrian', 'adrian@osloskolen.no', 'c153ae91ed7a0ca4cf353f6d59fd3adf765037540b91453f7fd672cad7dbbddd', ''),
 (4, 'Tobias', 'tobias@wellwell.com', '55f93722f93fa31b64acfad47044bbbd50d0fd5321cc3e5b670c4a7d1f8a9997', ''),
-(5, 'Henrik', 'henrik.hoias@gmail.com', '0b4aeb7299d551d4366bbe8f7bc91d6b29b603dd6daf19b5bbad5dc8fb703312', '');
+(5, 'Henrik', 'henrik.hoias@gmail.com', '0b4aeb7299d551d4366bbe8f7bc91d6b29b603dd6daf19b5bbad5dc8fb703312', ''),
+(6, 'Martin', 'martin@osloskolen.no', '39d3a2e969b3dec11478d65ecb96ee6066ebd98920c816df9de7d131d9c67d0c', NULL);
 
 -- --------------------------------------------------------
 
@@ -55,8 +56,8 @@ INSERT INTO `bruker` (`id`, `fornavn`, `e_post`, `pwd`, `tilgang`) VALUES
 CREATE TABLE `henvendelser` (
   `id` int(11) NOT NULL,
   `bruker_id` int(11) NOT NULL,
-  `statuser_id` int(11) DEFAULT NULL,
-  `kategori_id` int(11) DEFAULT NULL,
+  `statuser_id` int(11) NOT NULL DEFAULT 0,
+  `kategori_id` int(11) DEFAULT 0,
   `tidspunkt_opprettet` timestamp NOT NULL DEFAULT current_timestamp(),
   `beskrivelse` longtext DEFAULT NULL,
   `loosning_beskrivelse` longtext DEFAULT NULL
@@ -73,7 +74,8 @@ INSERT INTO `henvendelser` (`id`, `bruker_id`, `statuser_id`, `kategori_id`, `ti
 (10, 3, 2, 1, '2024-03-22 10:51:44', 'Trenger hjelp til å tilbakestille et glemt brukernavn', ''),
 (12, 3, 3, 2, '2024-04-04 09:58:57', 'Dette er en eksempel testhenvendelse.', '(var bare en test)'),
 (17, 5, 3, 3, '2024-06-05 11:15:36', 'jejdekdekd', 'tror du skrev feil vi kan ikke hjelpe deg med jejdekdekd fordi vi har ikke nok personal som kan fikse opp i det problemet akkuratt nå for øyeblikket'),
-(21, 3, 0, 0, '2024-06-12 07:35:55', 'efefsefsfsf', '');
+(21, 3, 0, 0, '2024-06-12 07:35:55', 'efefsefsfsf', ''),
+(22, 6, 0, 0, '2024-06-12 07:59:37', 'grdgrdgrdgdrg', NULL);
 
 -- --------------------------------------------------------
 
@@ -158,13 +160,13 @@ ALTER TABLE `statuser`
 -- AUTO_INCREMENT for table `bruker`
 --
 ALTER TABLE `bruker`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `henvendelser`
 --
 ALTER TABLE `henvendelser`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- Begrensninger for dumpede tabeller
