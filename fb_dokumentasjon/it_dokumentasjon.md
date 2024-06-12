@@ -78,7 +78,7 @@ Det kan være lurt å lagre det nye passordet på et lurt sted gjerne med en pas
 ### 2. Importer Databasestruktur
 - Bruk databasen `fjell_bedriftsloosninger` ved å kjøre følgende i konsollen:
   ```sql
-  USE DATABASE fjell_bedriftsloosninger;
+  USE fjell_bedriftsloosninger;
   ```
 - Hent data fra `fjell_bedriftsloosninger.sql` i `/var/www/html`-mappen og eksporter dataen inn i den nye databasen:
   ```sql
