@@ -105,7 +105,6 @@ $num_rows = $henvendelser_result->num_rows;
                             $henvendelse_id_stmt->execute();
                             $henvendelse_id_result = $henvendelse_id_stmt->get_result();
                             $henvendelse_id_row = $henvendelse_id_result->fetch_assoc();
-
                             $henvendelse_id = $henvendelse_id_row['id'];
                             echo $henvendelse_id;
                             ?>
