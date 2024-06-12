@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 04. Jun, 2024 19:47 PM
--- Tjener-versjon: 10.4.28-MariaDB
--- PHP Version: 8.0.28
+-- Generation Time: 12. Jun, 2024 09:37 AM
+-- Tjener-versjon: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -55,11 +55,11 @@ INSERT INTO `bruker` (`id`, `fornavn`, `e_post`, `pwd`, `tilgang`) VALUES
 CREATE TABLE `henvendelser` (
   `id` int(11) NOT NULL,
   `bruker_id` int(11) NOT NULL,
-  `statuser_id` int(11) NOT NULL DEFAULT 0,
-  `kategori_id` int(11) NOT NULL,
+  `statuser_id` int(11) DEFAULT NULL,
+  `kategori_id` int(11) DEFAULT NULL,
   `tidspunkt_opprettet` timestamp NOT NULL DEFAULT current_timestamp(),
-  `beskrivelse` longtext NOT NULL,
-  `loosning_beskrivelse` longtext NOT NULL
+  `beskrivelse` longtext DEFAULT NULL,
+  `loosning_beskrivelse` longtext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
@@ -72,7 +72,8 @@ INSERT INTO `henvendelser` (`id`, `bruker_id`, `statuser_id`, `kategori_id`, `ti
 (5, 4, 0, 0, '2024-03-22 10:31:31', 'Feilmeldinger vises under bruk av søkefunksjonen', 'owwww'),
 (10, 3, 2, 1, '2024-03-22 10:51:44', 'Trenger hjelp til å tilbakestille et glemt brukernavn', ''),
 (12, 3, 3, 2, '2024-04-04 09:58:57', 'Dette er en eksempel testhenvendelse.', '(var bare en test)'),
-(14, 5, 2, 0, '2024-06-03 06:50:31', 'test da', 'fiksa test for deg :)');
+(17, 5, 3, 3, '2024-06-05 11:15:36', 'jejdekdekd', 'tror du skrev feil vi kan ikke hjelpe deg med jejdekdekd fordi vi har ikke nok personal som kan fikse opp i det problemet akkuratt nå for øyeblikket'),
+(21, 3, 0, 0, '2024-06-12 07:35:55', 'efefsefsfsf', '');
 
 -- --------------------------------------------------------
 
@@ -163,7 +164,7 @@ ALTER TABLE `bruker`
 -- AUTO_INCREMENT for table `henvendelser`
 --
 ALTER TABLE `henvendelser`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- Begrensninger for dumpede tabeller
