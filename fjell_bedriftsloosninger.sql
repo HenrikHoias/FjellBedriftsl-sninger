@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 12. Jun, 2024 09:37 AM
+-- Generation Time: 12. Jun, 2024 09:43 AM
 -- Tjener-versjon: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -29,10 +29,10 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `bruker` (
   `id` int(11) NOT NULL,
-  `fornavn` varchar(100) NOT NULL,
+  `fornavn` varchar(100) DEFAULT NULL,
   `e_post` varchar(320) NOT NULL,
   `pwd` varchar(500) NOT NULL,
-  `tilgang` varchar(1) NOT NULL
+  `tilgang` varchar(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
