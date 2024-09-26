@@ -97,7 +97,7 @@ Det kan være lurt å lagre det nye passordet på et lurt sted gjerne med en pas
   ```bash
   sudo nano /etc/cron.daily/mysql_backup.sh
   ```
-- Legg til følgende innhold:
+- Legg til følgende innhold (enkel backup: tar backup uavhengig av endringer i databasen):
   ```bash
   #!/bin/bash
   
@@ -111,6 +111,41 @@ Det kan være lurt å lagre det nye passordet på et lurt sted gjerne med en pas
 
   # Kjør mysqldump-kommandoen for å ta en sikkerhetskopi
   sudo mysqldump -u root -p fjell_bedriftsloosninger > "$backup_dir/$(date +\%Y-\%m-\%d_%H:%M).sql"
+  ```
+- eller (avansert backup: tar backup dersom det skjer endringer i databasen):
+  ```bash
+  #!/bin/bash
+  
+  # Definer banen til sikkerhetskopi-mappen
+  backup_dir="/var/backup"
+  
+  # Sjekk om backup-mappen eksisterer, hvis ikke, opprett den
+  if [ ! -d "$backup_dir" ]; then
+      mkdir -p "$backup_dir"
+  fi
+  
+  # Filnavn for den nye midlertidige dumpen og tidsstempelfilen
+  temp_dump="$backup_dir/temp.sql"
+  new_dump="$backup_dir/new_temp.sql"
+  new_backup="$backup_dir/$(date +\%Y-%m-%d_%H:%M).sql"
+  
+  # Lag en ny midlertidig SQL dump for sammenligning
+  sudo mysqldump --skip-comments --skip-tz-utc -u root -p fjell_bedriftsloosninger > "$new_dump"
+  
+  # Sjekk om temp.sql finnes og sammenlign innholdet
+  if [ -f "$temp_dump" ]; then
+      if cmp -s "$temp_dump" "$new_dump"; then
+          # Hvis filene er identiske, slett den midlertidige dumpen og avslutt
+          rm "$new_dump"
+          echo "Backup ikke nødvendig. Ingen endringer i databasen."
+          exit 0
+      fi
+  fi
+  
+  # Hvis temp.sql ikke finnes, eller hvis det er forskjeller, opprett ny backup
+  mv "$new_dump" "$temp_dump"
+  cp "$temp_dump" "$new_backup"
+  echo "Ny backup opprettet: $new_backup"
   ```
 
 ### 3. Sett opp cron-jobb for backup
